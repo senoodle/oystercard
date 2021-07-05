@@ -20,12 +20,6 @@ describe Oystercard do
     expect {oystercard.top_up 20 }.to raise_error "Your top up limit is £#{Oystercard::TOP_UP_LIMIT}."
   end
 
-  it 'should deduct fare from balance' do 
-    oystercard.top_up(40)
-    oystercard.deduct(10)
-    expect(oystercard.balance).to eq(30)
-  end
-
   it 'should allow touch in' do 
     expect(oystercard).to respond_to(:touch_in).with(1).argument
   end
@@ -50,6 +44,12 @@ describe Oystercard do
 
   it 'shouldnt exceed maximum top up' do
     expect {oystercard.touch_in("Brixton") }.to raise_error "You have insufficient funds."
+  end
+
+  it 'charges the card on touch out' do
+    oystercard.top_up(20)
+    oystercard.touch_in('Holborn')
+    expect {oystercard.touch_out('Stratford')}.to change{oystercard.balance}.by(-2)
   end
 
 end
