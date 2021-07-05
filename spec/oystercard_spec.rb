@@ -26,4 +26,23 @@ describe Oystercard do
     expect(oystercard.balance).to eq(30)
   end
 
+  it 'should allow touch in' do 
+    expect(oystercard).to respond_to(:touch_in).with(1).argument
+  end
+
+  it 'should check in_journey?' do
+    oystercard.touch_in('Bank')
+    expect(oystercard).to respond_to :in_journey?
+  end
+
+  it 'checks the card is in use' do
+    oystercard.touch_in('Camden')
+    expect(oystercard.in_journey?).to eq true 
+  end
+
+  it 'allows us to touch out' do 
+    oystercard.touch_in('Holborn')
+    expect(oystercard).to respond_to :touch_out
+  end
+
 end
