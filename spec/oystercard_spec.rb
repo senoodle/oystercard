@@ -31,18 +31,25 @@ describe Oystercard do
   end
 
   it 'should check in_journey?' do
+    oystercard.top_up(Oystercard::MINIMUM_BALANCE)
     oystercard.touch_in('Bank')
     expect(oystercard).to respond_to :in_journey?
   end
 
   it 'checks the card is in use' do
+    oystercard.top_up(Oystercard::MINIMUM_BALANCE)
     oystercard.touch_in('Camden')
     expect(oystercard.in_journey?).to eq true 
   end
 
   it 'allows us to touch out' do 
+    oystercard.top_up(Oystercard::MINIMUM_BALANCE)
     oystercard.touch_in('Holborn')
     expect(oystercard).to respond_to :touch_out
+  end
+
+  it 'shouldnt exceed maximum top up' do
+    expect {oystercard.touch_in("Brixton") }.to raise_error "You have insufficient funds."
   end
 
 end
