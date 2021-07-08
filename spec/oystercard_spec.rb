@@ -1,7 +1,13 @@
 require 'oystercard'
+require 'journey'
+require 'journey_log'
+require 'station'
 
 describe Oystercard do
   let(:oystercard) { Oystercard.new }
+  let(:entry_station) { double :station}
+  let(:exit_station) { double :station}
+
   it 'has a balance' do
     expect(oystercard).to respond_to(:balance)
   end
@@ -30,12 +36,6 @@ describe Oystercard do
     expect(oystercard).to respond_to :in_journey?
   end
 
-  it 'checks the card is in use' do
-    oystercard.top_up(Oystercard::MINIMUM_BALANCE)
-    oystercard.touch_in('Camden')
-    expect(oystercard.in_journey?).to eq true 
-  end
-
   it 'allows us to touch out' do 
     oystercard.top_up(Oystercard::MINIMUM_BALANCE)
     oystercard.touch_in('Holborn')
@@ -46,10 +46,21 @@ describe Oystercard do
     expect {oystercard.touch_in("Brixton") }.to raise_error "You have insufficient funds."
   end
 
-  it 'charges the card on touch out' do
-    oystercard.top_up(20)
-    oystercard.touch_in('Holborn')
-    expect {oystercard.touch_out('Stratford')}.to change{oystercard.balance}.by(-2)
+  # it 'charges the card on touch out' do
+  #   oystercard.top_up(20)
+  #   oystercard.touch_in('Holborn')
+  #   expect {oystercard.touch_out('Stratford')}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
+  # end
+
+  # it 'stores the exit station' do
+  #   oystercard.top_up(20)
+  #   oystercard.touch_in(entry_station)
+  #   oystercard.touch_out(exit_station)
+  #   expect(oystercard.exit_station).to eq exit_station
+  # end
+
+  it 'checks journeys array is empty' do
+    expect(oystercard.journeys).to be_empty
   end
 
 end
