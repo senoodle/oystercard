@@ -7,5 +7,5 @@ describe Station do
     expect(station.name).to eq("name")
     expect(station.zone).to eq(0)
   end
-  
+
 end

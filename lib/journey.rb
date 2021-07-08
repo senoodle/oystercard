@@ -24,3 +24,4 @@ class Journey
     { entry_station => exit_station }
   end
 end
+

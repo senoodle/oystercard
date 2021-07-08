@@ -43,3 +43,5 @@ class JourneyLog
   end
 
   end
+
+  

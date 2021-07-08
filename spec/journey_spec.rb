@@ -28,3 +28,4 @@ describe Journey do
       expect(journey.fare).to eq(Oystercard::MINIMUM_BALANCE)
     end
   end
+  

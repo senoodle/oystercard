@@ -13,5 +13,6 @@ class Station
   def exit(exit_station)
     @exit_station
   end
-  
+
 end
+
